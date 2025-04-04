@@ -16,7 +16,7 @@ export const sidequest = pgTable("sidequest", {
 export const teams = pgTable("teams", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),
     name: varchar("name", { length: 255 }),
-    unstopId: bigint("unstop_id", { mode: "number" }).notNull(),
+    unstopId: varchar("unstop_id", { length: 255 }).notNull(), // Changed from bigint to varchar
 });
 
 export const judge = pgTable("judge", {
@@ -40,7 +40,7 @@ export const points = pgTable("points", {
     points: bigint("points", { mode: "number" }).notNull(),
 });
 
-// Relations
+// Relations (remain unchanged)
 export const adminRelations = relations(admin, ({ many }) => ({
     judges: many(judge),
 }));

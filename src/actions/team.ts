@@ -5,7 +5,7 @@ import { teams } from "@/db/schema";
 
 interface Team {
   name: string;
-  unstopId: number;
+  unstopId: string;
 }
 
 export async function createTeams(teamsData: Team[]) {

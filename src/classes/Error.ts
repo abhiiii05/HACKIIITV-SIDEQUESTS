@@ -1,5 +1,17 @@
+interface DatabaseError {
+  code?: string;
+  message?: string;
+  stack?: string;
+}
+
+interface AuthenticationError {
+  code?: string;
+  message?: string;
+  name?: string;
+}
+
 export class Errors {
-    static DBError(e: any) {
+    static DBError(e: DatabaseError) {
       return {
         message: "Database Error",
         error: true,
@@ -21,11 +33,11 @@ export class Errors {
       };
     }
   
-    static AuthError(e: any) {
+    static AuthError(e: AuthenticationError) {
       return {
         message: "Authentication Error",
         error: true,
         data: e,
       };
     }
-  }
+}

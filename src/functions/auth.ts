@@ -19,7 +19,10 @@ export async function auth() {
       algorithms: ["HS256"] // Explicitly specify the algorithm
     });
     return payload as Payload;
-  } catch (e: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Token verification failed: ${error.message}`);
+    }
     throw new Error("Invalid token");
   }
 }

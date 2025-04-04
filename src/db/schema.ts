@@ -1,6 +1,5 @@
 import { pgTable, uuid, varchar, bigint } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { sql } from "drizzle-orm";
 
 export const admin = pgTable("admin", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),

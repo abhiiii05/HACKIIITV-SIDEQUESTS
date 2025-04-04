@@ -39,8 +39,11 @@ export function RankingTable() {
         } else {
           setError("Failed to fetch scores")
         }
-      } catch (err) {
-        setError("An error occurred while fetching scores")
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error 
+          ? error.message 
+          : "An error occurred while fetching scores"
+        setError(errorMessage)
       } finally {
         setLoading(false)
       }

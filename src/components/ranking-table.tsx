@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   Table,
   TableBody,
@@ -26,6 +27,7 @@ interface TeamScore {
 }
 
 export function RankingTable() {
+  const router = useRouter()
   const [scores, setScores] = useState<TeamScore[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -52,6 +54,10 @@ export function RankingTable() {
     fetchScores()
   }, [])
 
+  const handleScoreClick = (teamId: string) => {
+    router.push(`/team-scores/${teamId}`)
+  }
+
   if (loading) {
     return <div className="text-center text-[#87CEFA]">Loading rankings...</div>
   }
@@ -61,39 +67,45 @@ export function RankingTable() {
   }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="text-[#87CEFA]">Rank</TableHead>
-          <TableHead className="text-[#87CEFA]">Team</TableHead>
-          <TableHead className="text-[#87CEFA]">Registration ID</TableHead>
-          <TableHead className="text-[#87CEFA]">Total Score</TableHead>
-          <TableHead className="text-[#87CEFA]">Quest Details</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {scores.map((team, index) => (
-          <TableRow key={team.teamId}>
-            <TableCell className="text-white">{index + 1}</TableCell>
-            <TableCell className="text-white">{team.teamName}</TableCell>
-            <TableCell className="text-white">{team.unstopId}</TableCell>
-            <TableCell className="text-white">{team.totalScore.toFixed(2)}</TableCell>
-            <TableCell className="text-white">
-              <div className="text-sm">
-                {Object.values(team.questScores).map(quest => (
-                  <div key={quest.questName} className="mb-1">
-                    {quest.questName}: {quest.averageScore.toFixed(2)} 
-                    <span className="text-gray-400 text-xs ml-2">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-[#87CEFA]">Rank</TableHead>
+            <TableHead className="text-[#87CEFA]">Team</TableHead>
+            <TableHead className="text-[#87CEFA]">Registration ID</TableHead>
+            <TableHead className="text-[#87CEFA]">Total Score</TableHead>
+            <TableHead className="text-[#87CEFA]">Quest Details</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {scores.map((team, index) => (
+              <TableRow key={team.teamId}>
+                <TableCell className="text-white">{index + 1}</TableCell>
+                <TableCell className="text-white">{team.teamName}</TableCell>
+                <TableCell className="text-white">{team.unstopId}</TableCell>
+                <TableCell className="text-white">
+                  <button
+                      onClick={() => handleScoreClick(team.teamId)}
+                      className="text-[#87CEFA] hover:underline"
+                  >
+                    {team.totalScore.toFixed(2)}
+                  </button>
+                </TableCell>
+                <TableCell className="text-white">
+                  <div className="text-sm">
+                    {Object.values(team.questScores).map(quest => (
+                        <div key={quest.questName} className="mb-1">
+                          {quest.questName}: {quest.averageScore.toFixed(2)}
+                          <span className="text-gray-400 text-xs ml-2">
                       ({quest.attempts} attempts)
                     </span>
+                        </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+                </TableCell>
+              </TableRow>
+          ))}
+        </TableBody>
+      </Table>
   )
 }
-

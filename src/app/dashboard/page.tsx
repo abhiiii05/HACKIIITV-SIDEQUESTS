@@ -32,9 +32,6 @@ export default function Dashboard() {
               </Button>
             </div>
           </header>
-
-          <StatsCards />
-
           <section className="mb-10 mt-10">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-[#87CEFA] uppercase tracking-wide">Side Quests!</h2>

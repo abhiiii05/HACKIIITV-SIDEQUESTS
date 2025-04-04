@@ -7,6 +7,14 @@ export default function middleware(req: NextRequest) {
   ) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin).toString());
   } 
+  else if (
+    req.cookies.get("access_token") &&
+    req.nextUrl.pathname === "/"
+  ){
+    return NextResponse.redirect(
+      new URL("/dashboard", req.nextUrl.origin).toString(),
+    );
+  }
 //   else if (req.cookies.get("access_token") && req.nextUrl.pathname === "/") {
 //     return NextResponse.redirect(
 //       new URL("/questions", req.nextUrl.origin).toString(),

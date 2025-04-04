@@ -13,7 +13,7 @@ import {
 
 interface Team {
   name: string;
-  unstopId: number;
+  unstopId: string;  // Changed to string type
 }
 
 export default function Teams() {
@@ -34,7 +34,7 @@ export default function Teams() {
 
     const processedTeams: Team[] = data.map((row) => ({
       name: row["Team Name"],
-      unstopId: parseInt(row["Unstop ID"]),
+      unstopId: row["Regn Id"].trim(),
     }));
 
     setTeams(processedTeams);
@@ -70,7 +70,7 @@ export default function Teams() {
           <TableHeader>
             <TableRow>
               <TableHead>Team Name</TableHead>
-              <TableHead>Unstop ID</TableHead>
+              <TableHead>Registration ID</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

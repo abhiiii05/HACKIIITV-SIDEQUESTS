@@ -1,8 +1,7 @@
 "use server"
 
 import { db } from "@/db"
-import { teams, points, judge, sidequest } from "@/db/schema"
-import { eq } from "drizzle-orm"
+import { teams } from "@/db/schema"
 
 interface TeamScore {
   teamId: string

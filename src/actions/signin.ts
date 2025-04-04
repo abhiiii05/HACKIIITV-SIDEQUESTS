@@ -1,4 +1,3 @@
-
 "use server";
 
 import bcrypt from "bcrypt";
@@ -7,10 +6,8 @@ import { eq } from "drizzle-orm";
 import { admin } from "@/db/schema";
 import { Errors } from "@/classes/Error";
 import { cookies } from "next/headers";
-import { SignJWT } from "jose";
 import { Payload } from "@/types/Payload";
 import { generateJWT } from "@/functions/auth";
-import { p } from "framer-motion/client";
 
 export async function signIn(username: string, password: string) {
   try {
@@ -33,9 +30,6 @@ export async function signIn(username: string, password: string) {
       username: user.name,
     } as Payload;
 
-    // const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
-    // const alg = "HS256";
-
     const token = await generateJWT(payload);
     (await cookies()).set("access_token", token);
 
@@ -44,7 +38,15 @@ export async function signIn(username: string, password: string) {
       error: false,
       data: payload,
     };
-  }  catch (e) {
-    return Errors.DBError(e);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return Errors.DBError({
+        message: error.message,
+        stack: error.stack,
+      });
+    }
+    return Errors.DBError({
+      message: "An unknown database error occurred",
+    });
   }
 }

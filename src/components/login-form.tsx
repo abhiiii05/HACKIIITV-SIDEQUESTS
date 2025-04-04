@@ -32,8 +32,12 @@ export function LoginForm() {
             } else {
                 router.push("/dashboard")
             }
-        } catch (error) {
-            alert("An error occurred during login")
+        } catch (err: unknown) {
+            // Type guard for Error instance
+            const errorMessage = err instanceof Error 
+                ? err.message 
+                : "An unexpected error occurred during login"
+            alert(errorMessage)
         } finally {
             setIsLoading(false)
         }
